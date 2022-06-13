@@ -10,19 +10,29 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.dd.gitapp.app
 import com.dd.gitapp.domain.UsersListGitHab
 import com.dd.gitapp.databinding.ActivityMainBinding
-import com.dd.gitapp.domain.GivUsersListGitHabRepo
+import com.dd.gitapp.ui.users.UsersContract
 import com.dd.gitapp.ui.users.UsersListAdapter
+import com.dd.gitapp.ui.users.UsersPresenter
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), UsersContract.View {
     private lateinit var binding: ActivityMainBinding
     private lateinit var adapterUsersList: UsersListAdapter
-    private val givUsersListGitHabRepo: GivUsersListGitHabRepo by lazy { app.givUsersListGitHabRepo }
+    private lateinit var presenter: UsersContract.Presenter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        showProgress(true)
+
+        presenter = UsersPresenter(app.givUsersListGitHabRepo)
+        presenter.attach(this)
         init()
+        showProgress(true)
+    }
+
+    override fun onDestroy() {
+        presenter.detach()
+        super.onDestroy()
     }
 
     private fun init() {
@@ -42,27 +52,25 @@ class MainActivity : AppCompatActivity() {
 
     private fun loadUserGidHab() {
         binding.mainLoadUsersButton.setOnClickListener {
-            showProgress(false)
-            givUsersListGitHabRepo.getUsersList(
-                onSuccess = ::getListUsers,
-                onError = ::loadingError
-            )
+            presenter.onRefresh()
+
         }
+
     }
 
-    private fun getListUsers(result: List<UsersListGitHab>) {
+    override fun showListUsers(result: List<UsersListGitHab>) {
         adapterUsersList.addUsers(result)
         showProgress(true)
     }
 
-    private fun loadingError(throwable: Throwable) {
+    override fun showLoadingError(throwable: Throwable) {
         Toast.makeText(this@MainActivity, "$throwable", Toast.LENGTH_LONG).show()
         Log.d(TAG, "ОШИБКА: $throwable")
         showProgress(false)
 
     }
 
-    private fun showProgress(inProgress: Boolean) {
+    override fun showProgress(inProgress: Boolean) {
         binding.mainLoadUsersProgressBar.isVisible = inProgress
         binding.mainLoadUsersProgressBar.isVisible = !inProgress
     }
