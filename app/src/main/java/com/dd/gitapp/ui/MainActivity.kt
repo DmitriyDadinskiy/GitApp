@@ -24,15 +24,24 @@ class MainActivity : AppCompatActivity(), UsersContract.View {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        presenter = UsersPresenter(app.givUsersListGitHabRepo)
-        presenter.attach(this)
         init()
         showProgress(true)
+
+        presenter = extractPresenter()
+        presenter.attach(this)
+    }
+    private fun extractPresenter(): UsersContract.Presenter {
+        return lastCustomNonConfigurationInstance as? UsersContract.Presenter
+            ?: UsersPresenter(app.givUsersListGitHabRepo)
     }
 
     override fun onDestroy() {
         presenter.detach()
         super.onDestroy()
+    }
+
+    override fun onRetainCustomNonConfigurationInstance(): UsersContract.Presenter {
+        return presenter
     }
 
     private fun init() {
