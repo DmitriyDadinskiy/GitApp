@@ -1,6 +1,7 @@
 package com.dd.gitapp.data
 
 
+import com.dd.gitapp.domain.GivUsersGitHabRepoApi
 import com.dd.gitapp.domain.GivUsersListGitHabRepo
 import com.dd.gitapp.domain.UsersListGitHab
 import retrofit2.Call

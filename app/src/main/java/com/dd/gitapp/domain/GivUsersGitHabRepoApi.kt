@@ -1,6 +1,6 @@
-package com.dd.gitapp.data
+package com.dd.gitapp.domain
 
-import com.dd.gitapp.domain.UsersListGitHab
+
 import retrofit2.Call
 import retrofit2.http.GET
 

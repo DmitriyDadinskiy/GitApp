@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">GitApp</string>
+    <string name="load_users">загрузить пользователей</string>
 </resources>

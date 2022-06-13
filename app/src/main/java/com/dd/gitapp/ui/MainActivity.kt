@@ -21,21 +21,28 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        showProgress(false)
+        showProgress(true)
         init()
     }
 
     private fun init() {
-        initViewUsersList()
+        initRecyclerViewUsers()
+        loadUserGidHab()
     }
 
-    private fun initViewUsersList() {
+    private fun initRecyclerViewUsers() {
         binding.apply {
             mainActivityListUsersRecyclerView.layoutManager = LinearLayoutManager(
                 this@MainActivity, LinearLayoutManager.VERTICAL, false
             )
             adapterUsersList = UsersListAdapter(listOf())
             mainActivityListUsersRecyclerView.adapter = adapterUsersList
+        }
+    }
+
+    private fun loadUserGidHab() {
+        binding.mainLoadUsersButton.setOnClickListener {
+            showProgress(false)
             givUsersListGitHabRepo.getUsersList(
                 onSuccess = ::getListUsers,
                 onError = ::loadingError
