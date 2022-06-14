@@ -3,7 +3,7 @@ package com.dd.gitapp.domain
 
 import com.google.gson.annotations.SerializedName
 
-data class UsersListGitHab(
+data class UsersListEntity(
     @SerializedName("avatar_url")
     val avatarUrl: String,
     @SerializedName("id")

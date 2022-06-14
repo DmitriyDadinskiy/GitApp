@@ -1,14 +1,15 @@
 package com.dd.gitapp.ui.users
 
 import com.dd.gitapp.domain.GivUsersListGitHabRepo
-import com.dd.gitapp.domain.UsersListGitHab
+import com.dd.gitapp.domain.UsersListEntity
+
 
 class UsersPresenter(
     private val usersListGitHabRepo: GivUsersListGitHabRepo,
 ) : UsersContract.Presenter {
     private var view: UsersContract.View? = null
 
-    private var usersList: List<UsersListGitHab>? = null
+    private var usersList: List<UsersListEntity>? = null
     private var inProgress: Boolean = true
 
     override fun attach(view: UsersContract.View) {
@@ -25,6 +26,7 @@ class UsersPresenter(
     override fun onRefresh() {
         loadUserGidHab()
     }
+
 
     private fun loadUserGidHab() {
         view?.showProgress(false)

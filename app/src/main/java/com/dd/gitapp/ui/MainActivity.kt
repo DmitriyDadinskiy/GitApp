@@ -1,6 +1,7 @@
 package com.dd.gitapp.ui
 
 import android.content.ContentValues.TAG
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -8,13 +9,13 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dd.gitapp.app
-import com.dd.gitapp.domain.UsersListGitHab
+import com.dd.gitapp.domain.UsersListEntity
 import com.dd.gitapp.databinding.ActivityMainBinding
-import com.dd.gitapp.ui.users.UsersContract
-import com.dd.gitapp.ui.users.UsersListAdapter
-import com.dd.gitapp.ui.users.UsersPresenter
+import com.dd.gitapp.ui.profile.USER_LOGIN
+import com.dd.gitapp.ui.profile.UserCardActivity
+import com.dd.gitapp.ui.users.*
 
-class MainActivity : AppCompatActivity(), UsersContract.View {
+class MainActivity : AppCompatActivity(), UsersContract.View, UsersListAdapter.ClickOnItemView {
     private lateinit var binding: ActivityMainBinding
     private lateinit var adapterUsersList: UsersListAdapter
     private lateinit var presenter: UsersContract.Presenter
@@ -30,6 +31,7 @@ class MainActivity : AppCompatActivity(), UsersContract.View {
         presenter = extractPresenter()
         presenter.attach(this)
     }
+
     private fun extractPresenter(): UsersContract.Presenter {
         return lastCustomNonConfigurationInstance as? UsersContract.Presenter
             ?: UsersPresenter(app.givUsersListGitHabRepo)
@@ -49,15 +51,28 @@ class MainActivity : AppCompatActivity(), UsersContract.View {
         loadUserGidHab()
     }
 
+
     private fun initRecyclerViewUsers() {
         binding.apply {
             mainActivityListUsersRecyclerView.layoutManager = LinearLayoutManager(
                 this@MainActivity, LinearLayoutManager.VERTICAL, false
             )
-            adapterUsersList = UsersListAdapter(listOf())
+            adapterUsersList = UsersListAdapter(listOf(), this@MainActivity)
             mainActivityListUsersRecyclerView.adapter = adapterUsersList
         }
+
     }
+
+    override fun onClickItemView(data: UsersListEntity) {
+        Toast.makeText(this@MainActivity, " ${data.login} ", Toast.LENGTH_LONG).show()
+        startActivity(Intent(this@MainActivity, UserCardActivity::class.java)
+            .apply {
+                putExtra(USER_LOGIN, data.login)
+
+            }
+        )
+    }
+
 
     private fun loadUserGidHab() {
         binding.mainLoadUsersButton.setOnClickListener {
@@ -67,7 +82,7 @@ class MainActivity : AppCompatActivity(), UsersContract.View {
 
     }
 
-    override fun showListUsers(result: List<UsersListGitHab>) {
+    override fun showListUsers(result: List<UsersListEntity>) {
         adapterUsersList.addUsers(result)
         showProgress(true)
     }

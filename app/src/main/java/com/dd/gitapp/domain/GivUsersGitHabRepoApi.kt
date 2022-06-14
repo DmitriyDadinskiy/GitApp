@@ -6,5 +6,5 @@ import retrofit2.http.GET
 
 interface GivUsersGitHabRepoApi {
     @GET("users")
-    fun loadReposUsersList(): Call<List<UsersListGitHab>>
+    fun loadReposUsersList(): Call<List<UsersListEntity>>
 }
