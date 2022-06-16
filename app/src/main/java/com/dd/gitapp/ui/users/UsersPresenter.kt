@@ -4,6 +4,7 @@ import com.dd.gitapp.domain.GivUsersListGitHabRepo
 import com.dd.gitapp.domain.UsersListEntity
 
 
+
 class UsersPresenter(
     private val usersListGitHabRepo: GivUsersListGitHabRepo,
 ) : UsersContract.Presenter {
@@ -25,7 +26,10 @@ class UsersPresenter(
 
     override fun onRefresh() {
         loadUserGidHab()
+
     }
+
+
 
 
     private fun loadUserGidHab() {

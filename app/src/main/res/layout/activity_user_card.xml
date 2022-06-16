@@ -16,22 +16,23 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="30dp"
-        android:text="Name:">
+        android:textSize="@dimen/text_size_user_card"
+        android:text="@string/name_user">
 
     </TextView>
     <TextView
+        android:id="@+id/name_user_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:textSize="30dp"
-        android:text="load Name">
+        android:textSize="@dimen/text_size_user_card"
+        android:text="@string/load_name_user">
 
     </TextView>
 </LinearLayout>
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/user_photo_image_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:srcCompat="@tools:sample/avatars" />
@@ -42,16 +43,17 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
-            android:text="Дата регистрации:">
+            android:textSize="@dimen/about_users_size"
+            android:text="@string/date_registration_user">
 
         </TextView>
         <TextView
+            android:id="@+id/data_registration_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:textSize="20dp"
-            android:text="дата">
+            android:textSize="@dimen/about_users_size"
+            android:text="@string/date">
 
         </TextView>
     </LinearLayout>
@@ -62,16 +64,16 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
-            android:text="Логин:">
+            android:textSize="@dimen/about_users_size"
+            android:text="@string/users_login">
 
         </TextView>
         <TextView
+            android:id="@+id/login_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:textSize="20dp"
-            android:text="логин">
+            android:textSize="@dimen/about_users_size">
 
         </TextView>
     </LinearLayout>
@@ -82,16 +84,17 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
-            android:text="Местоположение:">
+            android:textSize="@dimen/about_users_size"
+            android:text="@string/Location">
 
         </TextView>
         <TextView
+            android:id="@+id/city_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:textSize="20dp"
-            android:text="город">
+            android:textSize="@dimen/about_users_size"
+            android:text="@string/city">
 
         </TextView>
     </LinearLayout>
@@ -102,16 +105,16 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
-            android:text="Сомпания:">
+            android:textSize="@dimen/about_users_size"
+            android:text="@string/company">
 
         </TextView>
         <TextView
+            android:id="@+id/company_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:textSize="20dp"
-            android:text="ИТ успех">
+            android:textSize="@dimen/about_users_size">
 
         </TextView>
     </LinearLayout>
