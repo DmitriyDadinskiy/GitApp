@@ -14,6 +14,7 @@ class UserCardActivity : AppCompatActivity(), UserCardContract.View {
     private lateinit var binding: ActivityUserCardBinding
     private var userName = ""
     private lateinit var presenter: UserCardContract.Presenter
+    lateinit var dropEnd: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,11 +51,12 @@ class UserCardActivity : AppCompatActivity(), UserCardContract.View {
 
 
     override fun showUser(result: PersonalUserEntity) {
-
+        dropEnd = result.createdAt
+        val resultString = dropEnd.dropLast(10)
         with(binding) {
             nameUserTextView.text = result.name
             userPhotoImageView.load(result.avatarUrl)
-            dataRegistrationTextView.text = result.createdAt
+            dataRegistrationTextView.text = resultString
             cityTextView.text = result.location
             companyTextView.text = result.company
         }
