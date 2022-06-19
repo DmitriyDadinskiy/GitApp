@@ -15,10 +15,10 @@ import com.dd.gitapp.ui.profile.USER_LOGIN
 import com.dd.gitapp.ui.profile.UserCardActivity
 import com.dd.gitapp.ui.users.*
 
-class MainActivity : AppCompatActivity(), UsersContract.View, UsersListAdapter.ClickOnItemView {
+class MainActivity : AppCompatActivity(), UsersListAdapter.ClickOnItemView {
     private lateinit var binding: ActivityMainBinding
     private lateinit var adapterUsersList: UsersListAdapter
-    private lateinit var presenter: UsersContract.Presenter
+    private lateinit var viewModel: UsersViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,22 +28,25 @@ class MainActivity : AppCompatActivity(), UsersContract.View, UsersListAdapter.C
         init()
         showProgress(true)
 
-        presenter = extractPresenter()
-        presenter.attach(this)
+        initViewModel()
     }
 
-    private fun extractPresenter(): UsersContract.Presenter {
-        return lastCustomNonConfigurationInstance as? UsersContract.Presenter
-            ?: UsersPresenter(app.givUsersListGitHabRepo)
+    private fun initViewModel() {
+        viewModel = extractViewModel()
+
+        viewModel.progressLiveData.observe(this) { showProgress(it) }
+        viewModel.usersLiveData.observe(this) { showListUsers(it) }
+        viewModel.errorLiveData.observe(this) { showLoadingError(it) }
     }
 
-    override fun onDestroy() {
-        presenter.detach()
-        super.onDestroy()
+    private fun extractViewModel(): UsersViewModel {
+        return lastCustomNonConfigurationInstance as? UsersViewModel
+            ?: UsersViewModel(app.givUsersListGitHabRepo)
     }
 
-    override fun onRetainCustomNonConfigurationInstance(): UsersContract.Presenter {
-        return presenter
+
+    override fun onRetainCustomNonConfigurationInstance(): UsersViewModel {
+        return viewModel
     }
 
     private fun init() {
@@ -76,25 +79,23 @@ class MainActivity : AppCompatActivity(), UsersContract.View, UsersListAdapter.C
 
     private fun loadUserGidHab() {
         binding.mainLoadUsersButton.setOnClickListener {
-            presenter.onRefresh()
-
+            viewModel.loadUserGidHab()
         }
 
     }
 
-    override fun showListUsers(result: List<UsersListEntity>) {
+    private fun showListUsers(result: List<UsersListEntity>) {
         adapterUsersList.addUsers(result)
         showProgress(true)
     }
 
-    override fun showLoadingError(throwable: Throwable) {
+    private fun showLoadingError(throwable: Throwable) {
         Toast.makeText(this@MainActivity, "$throwable", Toast.LENGTH_LONG).show()
         Log.d(TAG, "ОШИБКА: $throwable")
         showProgress(false)
-
     }
 
-    override fun showProgress(inProgress: Boolean) {
+    private fun showProgress(inProgress: Boolean) {
         binding.mainLoadUsersProgressBar.isVisible = inProgress
         binding.mainLoadUsersProgressBar.isVisible = !inProgress
     }
