@@ -1,8 +1,10 @@
 package com.dd.gitapp.data
 
 
+import com.dd.gitapp.domain.GivUsersGitHabRepoApi
 import com.dd.gitapp.domain.GivUsersListGitHabRepo
-import com.dd.gitapp.domain.UsersListGitHab
+import com.dd.gitapp.domain.PersonalUserEntity
+import com.dd.gitapp.domain.UsersListEntity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -21,14 +23,14 @@ class RetrofitGivUsersListImpl : GivUsersListGitHabRepo {
     private var api: GivUsersGitHabRepoApi = retrofit.create(GivUsersGitHabRepoApi::class.java)
 
     override fun getUsersList(
-        onSuccess: (result: List<UsersListGitHab>) -> Unit,
+        onSuccess: (result: List<UsersListEntity>) -> Unit,
         onError: (Throwable) -> Unit,
     ) {
 
-        api.loadReposUsersList().enqueue(object : Callback<List<UsersListGitHab>> {
+        api.loadReposUsersList().enqueue(object : Callback<List<UsersListEntity>> {
             override fun onResponse(
-                call: Call<List<UsersListGitHab>>,
-                response: Response<List<UsersListGitHab>>,
+                call: Call<List<UsersListEntity>>,
+                response: Response<List<UsersListEntity>>,
             ) {
                 val body = response.body()
                 if (response.isSuccessful && body != null) {
@@ -38,7 +40,32 @@ class RetrofitGivUsersListImpl : GivUsersListGitHabRepo {
                 }
             }
 
-            override fun onFailure(call: Call<List<UsersListGitHab>>, t: Throwable) {
+            override fun onFailure(call: Call<List<UsersListEntity>>, t: Throwable) {
+                onError(t)
+            }
+
+        })
+    }
+
+    override fun getUser(
+        name: String,
+        onSuccess: (result: PersonalUserEntity) -> Unit,
+        onError: (Throwable) -> Unit,
+    ) {
+        api.loadReposPersonalUser(name).enqueue(object : Callback<PersonalUserEntity> {
+            override fun onResponse(
+                call: Call<PersonalUserEntity>,
+                response: Response<PersonalUserEntity>,
+            ) {
+                val body = response.body()
+                if (response.isSuccessful && body != null) {
+                    onSuccess.invoke(body)
+                } else {
+                    onError.invoke(Throwable())
+                }
+            }
+
+            override fun onFailure(call: Call<PersonalUserEntity>, t: Throwable) {
                 onError(t)
             }
 

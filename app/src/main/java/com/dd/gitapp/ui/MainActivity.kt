@@ -1,6 +1,7 @@
 package com.dd.gitapp.ui
 
 import android.content.ContentValues.TAG
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -8,54 +9,92 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dd.gitapp.app
-import com.dd.gitapp.domain.UsersListGitHab
+import com.dd.gitapp.domain.UsersListEntity
 import com.dd.gitapp.databinding.ActivityMainBinding
-import com.dd.gitapp.domain.GivUsersListGitHabRepo
-import com.dd.gitapp.ui.users.UsersListAdapter
+import com.dd.gitapp.ui.profile.USER_LOGIN
+import com.dd.gitapp.ui.profile.UserCardActivity
+import com.dd.gitapp.ui.users.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), UsersContract.View, UsersListAdapter.ClickOnItemView {
     private lateinit var binding: ActivityMainBinding
     private lateinit var adapterUsersList: UsersListAdapter
-    private val givUsersListGitHabRepo: GivUsersListGitHabRepo by lazy { app.givUsersListGitHabRepo }
+    private lateinit var presenter: UsersContract.Presenter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        showProgress(false)
+
         init()
+        showProgress(true)
+
+        presenter = extractPresenter()
+        presenter.attach(this)
+    }
+
+    private fun extractPresenter(): UsersContract.Presenter {
+        return lastCustomNonConfigurationInstance as? UsersContract.Presenter
+            ?: UsersPresenter(app.givUsersListGitHabRepo)
+    }
+
+    override fun onDestroy() {
+        presenter.detach()
+        super.onDestroy()
+    }
+
+    override fun onRetainCustomNonConfigurationInstance(): UsersContract.Presenter {
+        return presenter
     }
 
     private fun init() {
-        initViewUsersList()
+        initRecyclerViewUsers()
+        loadUserGidHab()
     }
 
-    private fun initViewUsersList() {
+
+    private fun initRecyclerViewUsers() {
         binding.apply {
             mainActivityListUsersRecyclerView.layoutManager = LinearLayoutManager(
                 this@MainActivity, LinearLayoutManager.VERTICAL, false
             )
-            adapterUsersList = UsersListAdapter(listOf())
+            adapterUsersList = UsersListAdapter(listOf(), this@MainActivity)
             mainActivityListUsersRecyclerView.adapter = adapterUsersList
-            givUsersListGitHabRepo.getUsersList(
-                onSuccess = ::getListUsers,
-                onError = ::loadingError
-            )
         }
+
     }
 
-    private fun getListUsers(result: List<UsersListGitHab>) {
+    override fun onClickItemView(data: UsersListEntity) {
+        Toast.makeText(this@MainActivity, " ${data.login} ", Toast.LENGTH_LONG).show()
+        startActivity(Intent(this@MainActivity, UserCardActivity::class.java)
+            .apply {
+                putExtra(USER_LOGIN, data.login)
+
+            }
+        )
+    }
+
+
+    private fun loadUserGidHab() {
+        binding.mainLoadUsersButton.setOnClickListener {
+            presenter.onRefresh()
+
+        }
+
+    }
+
+    override fun showListUsers(result: List<UsersListEntity>) {
         adapterUsersList.addUsers(result)
         showProgress(true)
     }
 
-    private fun loadingError(throwable: Throwable) {
+    override fun showLoadingError(throwable: Throwable) {
         Toast.makeText(this@MainActivity, "$throwable", Toast.LENGTH_LONG).show()
         Log.d(TAG, "ОШИБКА: $throwable")
         showProgress(false)
 
     }
 
-    private fun showProgress(inProgress: Boolean) {
+    override fun showProgress(inProgress: Boolean) {
         binding.mainLoadUsersProgressBar.isVisible = inProgress
         binding.mainLoadUsersProgressBar.isVisible = !inProgress
     }

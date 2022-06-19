@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">GitApp</string>
+    <string name="load_users">загрузить пользователей</string>
+    <string name="name_user">Name:</string>
+    <string name="load_name_user">load Name</string>
+    <string name="date_registration_user">Дата регистрации:</string>
+    <string name="date">дата</string>
+    <string name="users_login">Логин:</string>
+    <string name="Location">Местоположение:</string>
+    <string name="city">город</string>
+    <string name="company">Компания:</string>
 </resources>

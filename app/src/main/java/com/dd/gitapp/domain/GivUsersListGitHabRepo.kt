@@ -1,12 +1,16 @@
 package com.dd.gitapp.domain
 
-import androidx.annotation.WorkerThread
-
 
 interface GivUsersListGitHabRepo {
-    @WorkerThread
+
     fun getUsersList(
-        onSuccess: (result: List<UsersListGitHab>) -> Unit,
+        onSuccess: (result: List<UsersListEntity>) -> Unit,
+        onError: (Throwable) -> Unit,
+    )
+
+    fun getUser(
+        name: String,
+        onSuccess: (result: PersonalUserEntity) -> Unit,
         onError: (Throwable) -> Unit,
     )
 }
