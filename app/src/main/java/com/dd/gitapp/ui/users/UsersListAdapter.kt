@@ -3,7 +3,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.dd.gitapp.R
-import com.dd.gitapp.domain.UsersListEntity
+import com.dd.gitapp.data.UsersListEntity
 
 class UsersListAdapter(
     private var usersListAdapter: List<UsersListEntity>,

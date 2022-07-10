@@ -1,8 +1,6 @@
 package com.dd.gitapp.data
 
 
-import com.dd.gitapp.domain.PersonalUserEntity
-import com.dd.gitapp.domain.UsersListEntity
 import io.reactivex.rxjava3.core.Single
 import retrofit2.Call
 import retrofit2.http.GET

@@ -1,5 +1,7 @@
 package com.dd.gitapp.domain
 
+import com.dd.gitapp.data.PersonalUserEntity
+import com.dd.gitapp.data.UsersListEntity
 import io.reactivex.rxjava3.core.Single
 
 

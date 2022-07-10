@@ -6,7 +6,7 @@ import android.widget.Toast
 import coil.load
 import com.dd.gitapp.app
 import com.dd.gitapp.databinding.ActivityUserCardBinding
-import com.dd.gitapp.domain.PersonalUserEntity
+import com.dd.gitapp.data.PersonalUserEntity
 
 const val USER_LOGIN = "userLogin"
 

@@ -3,7 +3,7 @@ package com.dd.gitapp.ui.users
 
 import androidx.lifecycle.ViewModel
 import com.dd.gitapp.domain.GivUsersListGitHabRepo
-import com.dd.gitapp.domain.UsersListEntity
+import com.dd.gitapp.data.UsersListEntity
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.kotlin.subscribeBy

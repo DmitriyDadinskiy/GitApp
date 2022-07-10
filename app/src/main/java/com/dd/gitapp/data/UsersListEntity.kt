@@ -1,4 +1,4 @@
-package com.dd.gitapp.domain
+package com.dd.gitapp.data
 
 
 import com.google.gson.annotations.SerializedName
