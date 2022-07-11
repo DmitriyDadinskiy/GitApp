@@ -8,7 +8,6 @@ import android.util.Log
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.dd.gitapp.app
 import com.dd.gitapp.data.UsersListEntity
 import com.dd.gitapp.databinding.ActivityMainBinding
 import com.dd.gitapp.domain.GivUsersListGitHabRepo
@@ -16,6 +15,7 @@ import com.dd.gitapp.ui.profile.USER_LOGIN
 import com.dd.gitapp.ui.profile.UserCardActivity
 import com.dd.gitapp.ui.users.*
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity(), UsersListAdapter.ClickOnItemView {
     private lateinit var binding: ActivityMainBinding
@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity(), UsersListAdapter.ClickOnItemView {
     private lateinit var viewModel: UsersViewModel
 
     private var viewModelDisposable = CompositeDisposable()
-    private val usersListGitHabRepo: GivUsersListGitHabRepo by lazy { app.givUsersListGitHabRepo }
+    private val usersListGitHabRepo: GivUsersListGitHabRepo by inject()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
