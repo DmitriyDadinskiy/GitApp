@@ -10,21 +10,18 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dd.gitapp.data.UsersListEntity
 import com.dd.gitapp.databinding.ActivityMainBinding
-import com.dd.gitapp.domain.GivUsersListGitHabRepo
 import com.dd.gitapp.ui.profile.USER_LOGIN
 import com.dd.gitapp.ui.profile.UserCardActivity
 import com.dd.gitapp.ui.users.*
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity(), UsersListAdapter.ClickOnItemView {
     private lateinit var binding: ActivityMainBinding
     private lateinit var adapterUsersList: UsersListAdapter
-    private lateinit var viewModel: UsersViewModel
+    private val viewModel: UsersViewModel by viewModel()
 
     private var viewModelDisposable = CompositeDisposable()
-    private val usersListGitHabRepo: GivUsersListGitHabRepo by inject()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +35,6 @@ class MainActivity : AppCompatActivity(), UsersListAdapter.ClickOnItemView {
     }
 
     private fun initViewModel() {
-        viewModel = extractViewModel()
         viewModelDisposable.addAll(
             viewModel.progressLiveData.subscribe { showProgress(it) },
             viewModel.usersLiveData.subscribe { showListUsers(it) },
@@ -46,15 +42,6 @@ class MainActivity : AppCompatActivity(), UsersListAdapter.ClickOnItemView {
         )
     }
 
-    private fun extractViewModel(): UsersViewModel {
-        return lastCustomNonConfigurationInstance as? UsersViewModel
-            ?: UsersViewModel(usersListGitHabRepo)
-    }
-
-
-    override fun onRetainCustomNonConfigurationInstance(): UsersViewModel {
-        return viewModel
-    }
 
     private fun init() {
         initRecyclerViewUsers()
