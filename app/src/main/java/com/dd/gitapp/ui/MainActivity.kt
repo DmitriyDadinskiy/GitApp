@@ -14,11 +14,15 @@ import com.dd.gitapp.databinding.ActivityMainBinding
 import com.dd.gitapp.ui.profile.USER_LOGIN
 import com.dd.gitapp.ui.profile.UserCardActivity
 import com.dd.gitapp.ui.users.*
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.internal.disposables.ArrayCompositeDisposable
 
 class MainActivity : AppCompatActivity(), UsersListAdapter.ClickOnItemView {
     private lateinit var binding: ActivityMainBinding
     private lateinit var adapterUsersList: UsersListAdapter
     private lateinit var viewModel: UsersViewModel
+
+    private var viewModelDisposable = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,10 +37,11 @@ class MainActivity : AppCompatActivity(), UsersListAdapter.ClickOnItemView {
 
     private fun initViewModel() {
         viewModel = extractViewModel()
-
-        viewModel.progressLiveData.observe(this) { showProgress(it) }
-        viewModel.usersLiveData.observe(this) { showListUsers(it) }
-        viewModel.errorLiveData.observe(this) { showLoadingError(it) }
+        viewModelDisposable.addAll(
+            viewModel.progressLiveData.subscribe { showProgress(it) },
+            viewModel.usersLiveData.subscribe { showListUsers(it) },
+            viewModel.errorLiveData.subscribe { showLoadingError(it) }
+        )
     }
 
     private fun extractViewModel(): UsersViewModel {
@@ -54,6 +59,10 @@ class MainActivity : AppCompatActivity(), UsersListAdapter.ClickOnItemView {
         loadUserGidHab()
     }
 
+    override fun onDestroy() {
+        viewModelDisposable.dispose()
+        super.onDestroy()
+    }
 
     private fun initRecyclerViewUsers() {
         binding.apply {

@@ -1,15 +1,17 @@
-package com.dd.gitapp.domain
+package com.dd.gitapp.data
 
 
+import com.dd.gitapp.domain.PersonalUserEntity
+import com.dd.gitapp.domain.UsersListEntity
+import io.reactivex.rxjava3.core.Single
 import retrofit2.Call
 import retrofit2.http.GET
-import retrofit2.http.PATCH
 import retrofit2.http.Path
-import retrofit2.http.Query
+
 
 interface GivUsersGitHabRepoApi {
     @GET("users")
-    fun loadReposUsersList(): Call<List<UsersListEntity>>
+    fun loadReposUsersList(): Single<List<UsersListEntity>>
 
     @GET("users/{name}")
     fun loadReposPersonalUser(@Path("name") name: String): Call<PersonalUserEntity>
