@@ -6,7 +6,9 @@ import android.widget.Toast
 import coil.load
 import com.dd.gitapp.app
 import com.dd.gitapp.databinding.ActivityUserCardBinding
-import com.dd.gitapp.domain.PersonalUserEntity
+import com.dd.gitapp.data.PersonalUserEntity
+import com.dd.gitapp.domain.GivUsersListGitHabRepo
+import org.koin.android.ext.android.inject
 
 const val USER_LOGIN = "userLogin"
 
@@ -14,6 +16,7 @@ class UserCardActivity : AppCompatActivity(), UserCardContract.View {
     private lateinit var binding: ActivityUserCardBinding
     private var userName = ""
     private lateinit var presenter: UserCardContract.Presenter
+    private val usersListGitHabRepo: GivUsersListGitHabRepo by inject()
     lateinit var dropEnd: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,7 +24,7 @@ class UserCardActivity : AppCompatActivity(), UserCardContract.View {
         binding = ActivityUserCardBinding.inflate(layoutInflater)
         setContentView(binding.root)
         init()
-        presenter = UserCardPresenter(app.givUsersListGitHabRepo)
+        presenter = UserCardPresenter(usersListGitHabRepo)
         presenter.attach(this)
 
     }

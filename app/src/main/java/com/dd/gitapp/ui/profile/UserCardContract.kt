@@ -1,6 +1,6 @@
 package com.dd.gitapp.ui.profile
 
-import com.dd.gitapp.domain.PersonalUserEntity
+import com.dd.gitapp.data.PersonalUserEntity
 
 
 interface UserCardContract {

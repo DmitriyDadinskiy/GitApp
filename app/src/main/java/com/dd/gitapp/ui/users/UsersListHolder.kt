@@ -4,7 +4,7 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.dd.gitapp.databinding.ItemUsersListBinding
-import com.dd.gitapp.domain.UsersListEntity
+import com.dd.gitapp.data.UsersListEntity
 
 class UsersListHolder(
     item: View,

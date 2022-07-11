@@ -2,28 +2,17 @@ package com.dd.gitapp.data
 
 
 import com.dd.gitapp.domain.GivUsersListGitHabRepo
-import com.dd.gitapp.domain.PersonalUserEntity
-import com.dd.gitapp.domain.UsersListEntity
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
-import retrofit2.converter.gson.GsonConverterFactory
 
 
-private const val BASE_URL = "https://api.github.com/"
 
-class RetrofitGivUsersListImpl : GivUsersListGitHabRepo {
-    private val retrofit = Retrofit.Builder()
-        .baseUrl(BASE_URL)
-        .addConverterFactory(GsonConverterFactory.create())
-        .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-        .build()
-
-    private var api: GivUsersGitHabRepoApi = retrofit.create(GivUsersGitHabRepoApi::class.java)
+class RetrofitGivUsersListImpl(
+    private var api: GivUsersGitHabRepoApi
+) : GivUsersListGitHabRepo {
 
     override fun getUsersList(
         onSuccess: (result: List<UsersListEntity>) -> Unit,
