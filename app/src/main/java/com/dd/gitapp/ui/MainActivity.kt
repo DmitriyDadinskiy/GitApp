@@ -2,24 +2,26 @@ package com.dd.gitapp.ui
 
 import android.content.ContentValues.TAG
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.dd.gitapp.app
 import com.dd.gitapp.data.UsersListEntity
 import com.dd.gitapp.databinding.ActivityMainBinding
 import com.dd.gitapp.ui.profile.USER_LOGIN
 import com.dd.gitapp.ui.profile.UserCardActivity
-import com.dd.gitapp.ui.users.*
+import com.dd.gitapp.ui.users.UsersListAdapter
+import com.dd.gitapp.ui.users.UsersViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import org.koin.androidx.viewmodel.ext.android.viewModel
+
 
 class MainActivity : AppCompatActivity(), UsersListAdapter.ClickOnItemView {
     private lateinit var binding: ActivityMainBinding
     private lateinit var adapterUsersList: UsersListAdapter
-    private val viewModel: UsersViewModel by viewModel()
+    private val viewModel: UsersViewModel by lazy { UsersViewModel(app.appComponent.givUsersRepo()) }
 
     private var viewModelDisposable = CompositeDisposable()
 
