@@ -8,6 +8,7 @@ import dagger.Provides
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Singleton
 
 @Module
 class AppModules {
@@ -15,6 +16,7 @@ class AppModules {
 
 
     @Provides
+    @Singleton
     fun provideUsersRepo(
         api: GivUsersGitHabRepoApi
     ): GivUsersListGitHabRepo {
@@ -22,6 +24,7 @@ class AppModules {
     }
 
     @Provides
+    @Singleton
     fun provideGitHabApi(
         retrofit: Retrofit
     ): GivUsersGitHabRepoApi {
@@ -29,6 +32,7 @@ class AppModules {
     }
 
     @Provides
+    @Singleton
     fun provideRetrofit(): Retrofit {
         return Retrofit.Builder()
             .baseUrl(baseUrl)
