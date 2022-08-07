@@ -1,4 +1,3 @@
-package com.dd.gitapp.di
 
 import com.dd.gitapp.data.GivUsersGitHabRepoApi
 import com.dd.gitapp.data.RetrofitGivUsersListImpl
@@ -27,4 +26,3 @@ val appModule = module {
 
     viewModel { UsersViewModel(get()) }
 }
-
